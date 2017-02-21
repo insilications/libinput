@@ -6,7 +6,7 @@
 #
 Name     : libinput
 Version  : 1.6.2
-Release  : 9
+Release  : 10
 URL      : http://www.freedesktop.org/software/libinput/libinput-1.6.2.tar.xz
 Source0  : http://www.freedesktop.org/software/libinput/libinput-1.6.2.tar.xz
 Source99 : http://www.freedesktop.org/software/libinput/libinput-1.6.2.tar.xz.sig
@@ -42,6 +42,7 @@ BuildRequires : pkgconfig(gtk+-3.0)
 BuildRequires : pkgconfig(libevdev)
 BuildRequires : pkgconfig(libudev)
 BuildRequires : pkgconfig(mtdev)
+BuildRequires : python3-dev
 BuildRequires : valgrind
 
 %description
@@ -113,7 +114,7 @@ popd
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1487704011
+export SOURCE_DATE_EPOCH=1487704821
 %configure --disable-static --disable-libwacom
 make V=1  %{?_smp_mflags}
 
@@ -133,7 +134,7 @@ export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1487704011
+export SOURCE_DATE_EPOCH=1487704821
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
