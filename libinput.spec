@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.7.2
-Release  : 15
-URL      : http://www.freedesktop.org/software/libinput/libinput-1.7.2.tar.xz
-Source0  : http://www.freedesktop.org/software/libinput/libinput-1.7.2.tar.xz
-Source99 : http://www.freedesktop.org/software/libinput/libinput-1.7.2.tar.xz.sig
+Version  : 1.7.3
+Release  : 16
+URL      : http://www.freedesktop.org/software/libinput/libinput-1.7.3.tar.xz
+Source0  : http://www.freedesktop.org/software/libinput/libinput-1.7.3.tar.xz
+Source99 : http://www.freedesktop.org/software/libinput/libinput-1.7.3.tar.xz.sig
 Summary  : Input device library
 Group    : Development/Tools
 License  : MIT
@@ -107,9 +107,9 @@ lib32 components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.7.2
+%setup -q -n libinput-1.7.3
 pushd ..
-cp -a libinput-1.7.2 build32
+cp -a libinput-1.7.3 build32
 popd
 
 %build
@@ -117,7 +117,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1494004892
+export SOURCE_DATE_EPOCH=1497016572
 %configure --disable-static --disable-libwacom
 make V=1  %{?_smp_mflags}
 
@@ -137,7 +137,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1494004892
+export SOURCE_DATE_EPOCH=1497016572
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -187,9 +187,9 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libinput.so.10
-/usr/lib64/libinput.so.10.12.4
+/usr/lib64/libinput.so.10.12.5
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libinput.so.10
-/usr/lib32/libinput.so.10.12.4
+/usr/lib32/libinput.so.10.12.5
