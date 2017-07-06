@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.7.3
-Release  : 16
-URL      : http://www.freedesktop.org/software/libinput/libinput-1.7.3.tar.xz
-Source0  : http://www.freedesktop.org/software/libinput/libinput-1.7.3.tar.xz
-Source99 : http://www.freedesktop.org/software/libinput/libinput-1.7.3.tar.xz.sig
+Version  : 1.8.0
+Release  : 17
+URL      : http://www.freedesktop.org/software/libinput/libinput-1.8.0.tar.xz
+Source0  : http://www.freedesktop.org/software/libinput/libinput-1.8.0.tar.xz
+Source99 : http://www.freedesktop.org/software/libinput/libinput-1.8.0.tar.xz.sig
 Summary  : Input device library
 Group    : Development/Tools
 License  : MIT
@@ -26,6 +26,7 @@ BuildRequires : glibc-dev32
 BuildRequires : glibc-libc32
 BuildRequires : graphviz
 BuildRequires : grep
+BuildRequires : libunwind-dev
 BuildRequires : pango-dev32
 BuildRequires : pkgconfig(32atk)
 BuildRequires : pkgconfig(32cairo)
@@ -43,10 +44,10 @@ BuildRequires : pkgconfig(libevdev)
 BuildRequires : pkgconfig(libudev)
 BuildRequires : pkgconfig(mtdev)
 BuildRequires : python3-dev
+BuildRequires : sed
 BuildRequires : valgrind
 
 %description
-/*!@mainpage
 libinput
 ========
 libinput is a library that handles input devices for display servers and other
@@ -107,9 +108,9 @@ lib32 components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.7.3
+%setup -q -n libinput-1.8.0
 pushd ..
-cp -a libinput-1.7.3 build32
+cp -a libinput-1.8.0 build32
 popd
 
 %build
@@ -117,8 +118,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1497016572
-%configure --disable-static --disable-libwacom
+export SOURCE_DATE_EPOCH=1499351900
+%configure --disable-static --disable-libwacom --without-libunwind
 make V=1  %{?_smp_mflags}
 
 pushd ../build32/
@@ -126,7 +127,7 @@ export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
-%configure --disable-static --disable-libwacom   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+%configure --disable-static --disable-libwacom --without-libunwind   --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make V=1  %{?_smp_mflags}
 popd
 %check
@@ -137,7 +138,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1497016572
+export SOURCE_DATE_EPOCH=1499351900
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -165,8 +166,14 @@ popd
 
 %files bin
 %defattr(-,root,root,-)
+/usr/bin/libinput
 /usr/bin/libinput-debug-events
 /usr/bin/libinput-list-devices
+/usr/libexec/libinput/libinput-debug-events
+/usr/libexec/libinput/libinput-debug-gui
+/usr/libexec/libinput/libinput-list-devices
+/usr/libexec/libinput/libinput-measure
+/usr/libexec/libinput/libinput-measure-touchpad-tap
 
 %files dev
 %defattr(-,root,root,-)
@@ -187,9 +194,9 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libinput.so.10
-/usr/lib64/libinput.so.10.12.5
+/usr/lib64/libinput.so.10.13.0
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libinput.so.10
-/usr/lib32/libinput.so.10.12.5
+/usr/lib32/libinput.so.10.13.0

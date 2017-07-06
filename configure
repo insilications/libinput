@@ -1,1 +1,1 @@
---disable-libwacom
+--disable-libwacom --without-libunwind
