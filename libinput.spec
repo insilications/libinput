@@ -6,7 +6,7 @@
 #
 Name     : libinput
 Version  : 1.8.2
-Release  : 19
+Release  : 20
 URL      : http://www.freedesktop.org/software/libinput/libinput-1.8.2.tar.xz
 Source0  : http://www.freedesktop.org/software/libinput/libinput-1.8.2.tar.xz
 Source99 : http://www.freedesktop.org/software/libinput/libinput-1.8.2.tar.xz.sig
