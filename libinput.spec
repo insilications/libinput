@@ -6,7 +6,7 @@
 #
 Name     : libinput
 Version  : 1.10.0
-Release  : 21
+Release  : 22
 URL      : http://www.freedesktop.org/software/libinput/libinput-1.10.0.tar.xz
 Source0  : http://www.freedesktop.org/software/libinput/libinput-1.10.0.tar.xz
 Source99 : http://www.freedesktop.org/software/libinput/libinput-1.10.0.tar.xz.sig
@@ -23,15 +23,16 @@ BuildRequires : gcc-dev32
 BuildRequires : gcc-libgcc32
 BuildRequires : gcc-libstdc++32
 BuildRequires : gdk-pixbuf-dev32
+BuildRequires : glib-dev32
 BuildRequires : glibc-dev32
 BuildRequires : glibc-libc32
 BuildRequires : graphviz
-BuildRequires : libunwind-dev
 BuildRequires : meson
 BuildRequires : ninja
 BuildRequires : pango-dev32
 BuildRequires : pkgconfig(32atk)
 BuildRequires : pkgconfig(32check)
+BuildRequires : pkgconfig(32glib-2.0)
 BuildRequires : pkgconfig(32gtk+-3.0)
 BuildRequires : pkgconfig(32libevdev)
 BuildRequires : pkgconfig(32libudev)
@@ -79,6 +80,17 @@ Provides: libinput-devel
 dev components for the libinput package.
 
 
+%package dev32
+Summary: dev32 components for the libinput package.
+Group: Default
+Requires: libinput-lib32
+Requires: libinput-bin
+Requires: libinput-dev
+
+%description dev32
+dev32 components for the libinput package.
+
+
 %package doc
 Summary: doc components for the libinput package.
 Group: Documentation
@@ -95,6 +107,14 @@ Group: Libraries
 lib components for the libinput package.
 
 
+%package lib32
+Summary: lib32 components for the libinput package.
+Group: Default
+
+%description lib32
+lib32 components for the libinput package.
+
+
 %prep
 %setup -q -n libinput-1.10.0
 pushd ..
@@ -106,11 +126,22 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1518529168
+export SOURCE_DATE_EPOCH=1518615943
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --prefix /usr --buildtype=plain -Dlibwacom=false builddir
 ninja -v -C builddir
+pushd ../build32
+export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export CFLAGS="$CFLAGS -m32"
+export CXXFLAGS="$CXXFLAGS -m32"
+export LDFLAGS="$LDFLAGS -m32"
+CFLAGS="$CFLAGS -m32" CXXFLAGS="$CXXFLAGS -m32" LDFLAGS="$LDFLAGS -m32 " PKG_CONFIG_PATH="/usr/lib32/pkgconfig" meson --libdir=/usr/lib32 --prefix /usr --buildtype=plain -Dlibwacom=false builddir
+ninja -v -C builddir
+popd
 
 %install
+pushd ../build32
+DESTDIR=%{buildroot} ninja -C builddir install
+popd
 DESTDIR=%{buildroot} ninja -C builddir install
 
 %files
@@ -144,6 +175,11 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib64/libinput.so
 /usr/lib64/pkgconfig/libinput.pc
 
+%files dev32
+%defattr(-,root,root,-)
+/usr/lib32/libinput.so
+/usr/lib32/pkgconfig/libinput.pc
+
 %files doc
 %defattr(-,root,root,-)
 %doc /usr/share/man/man1/*
@@ -152,3 +188,8 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %defattr(-,root,root,-)
 /usr/lib64/libinput.so.10
 /usr/lib64/libinput.so.10.13.0
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libinput.so.10
+/usr/lib32/libinput.so.10.13.0
