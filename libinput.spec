@@ -6,7 +6,7 @@
 #
 Name     : libinput
 Version  : 1.10.0
-Release  : 22
+Release  : 23
 URL      : http://www.freedesktop.org/software/libinput/libinput-1.10.0.tar.xz
 Source0  : http://www.freedesktop.org/software/libinput/libinput-1.10.0.tar.xz
 Source99 : http://www.freedesktop.org/software/libinput/libinput-1.10.0.tar.xz.sig
@@ -126,7 +126,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1518615943
+export SOURCE_DATE_EPOCH=1518617046
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --prefix /usr --buildtype=plain -Dlibwacom=false builddir
 ninja -v -C builddir
 pushd ../build32
@@ -141,6 +141,12 @@ popd
 %install
 pushd ../build32
 DESTDIR=%{buildroot} ninja -C builddir install
+if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
+then
+pushd %{buildroot}/usr/lib32/pkgconfig
+for i in *.pc ; do ln -s $i 32$i ; done
+popd
+fi
 popd
 DESTDIR=%{buildroot} ninja -C builddir install
 
@@ -178,6 +184,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files dev32
 %defattr(-,root,root,-)
 /usr/lib32/libinput.so
+/usr/lib32/pkgconfig/32libinput.pc
 /usr/lib32/pkgconfig/libinput.pc
 
 %files doc
