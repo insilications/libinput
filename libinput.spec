@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.10.4
-Release  : 26
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.10.4.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.10.4.tar.xz
-Source99 : https://www.freedesktop.org/software/libinput/libinput-1.10.4.tar.xz.sig
+Version  : 1.10.5
+Release  : 27
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.10.5.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.10.5.tar.xz
+Source99 : https://www.freedesktop.org/software/libinput/libinput-1.10.5.tar.xz.sig
 Summary  : Input device library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
@@ -118,9 +118,9 @@ lib32 components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.10.4
+%setup -q -n libinput-1.10.5
 pushd ..
-cp -a libinput-1.10.4 build32
+cp -a libinput-1.10.5 build32
 popd
 
 %build
@@ -128,15 +128,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1523281238
-CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --prefix /usr --buildtype=plain -Dlibwacom=false builddir
+export SOURCE_DATE_EPOCH=1524145215
+CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --prefix /usr --buildtype=plain -Dlibwacom=false  builddir
 ninja -v -C builddir
 pushd ../build32
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
-CFLAGS="$CFLAGS -m32" CXXFLAGS="$CXXFLAGS -m32" LDFLAGS="$LDFLAGS -m32" PKG_CONFIG_PATH="/usr/lib32/pkgconfig" meson --libdir=/usr/lib32 --prefix /usr --buildtype=plain -Dlibwacom=false builddir
+CFLAGS="$CFLAGS -m32" CXXFLAGS="$CXXFLAGS -m32" LDFLAGS="$LDFLAGS -m32" PKG_CONFIG_PATH="/usr/lib32/pkgconfig" meson --libdir=/usr/lib32 --prefix /usr --buildtype=plain -Dlibwacom=false  builddir
 ninja -v -C builddir
 popd
 
