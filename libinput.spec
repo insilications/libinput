@@ -6,7 +6,7 @@
 #
 Name     : libinput
 Version  : 1.10.6
-Release  : 28
+Release  : 29
 URL      : https://www.freedesktop.org/software/libinput/libinput-1.10.6.tar.xz
 Source0  : https://www.freedesktop.org/software/libinput/libinput-1.10.6.tar.xz
 Source99 : https://www.freedesktop.org/software/libinput/libinput-1.10.6.tar.xz.sig
