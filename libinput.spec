@@ -5,18 +5,18 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.10.6
-Release  : 30
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.10.6.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.10.6.tar.xz
-Source99 : https://www.freedesktop.org/software/libinput/libinput-1.10.6.tar.xz.sig
+Version  : 1.10.7
+Release  : 31
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.10.7.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.10.7.tar.xz
+Source99 : https://www.freedesktop.org/software/libinput/libinput-1.10.7.tar.xz.sig
 Summary  : Input device library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
 Requires: libinput-bin
 Requires: libinput-config
 Requires: libinput-lib
-Requires: libinput-doc
+Requires: libinput-man
 BuildRequires : cairo-dev32
 BuildRequires : doxygen
 BuildRequires : gcc-dev32
@@ -58,6 +58,7 @@ applications that need to directly deal with input devices.
 Summary: bin components for the libinput package.
 Group: Binaries
 Requires: libinput-config
+Requires: libinput-man
 
 %description bin
 bin components for the libinput package.
@@ -93,14 +94,6 @@ Requires: libinput-dev
 dev32 components for the libinput package.
 
 
-%package doc
-Summary: doc components for the libinput package.
-Group: Documentation
-
-%description doc
-doc components for the libinput package.
-
-
 %package lib
 Summary: lib components for the libinput package.
 Group: Libraries
@@ -117,10 +110,18 @@ Group: Default
 lib32 components for the libinput package.
 
 
+%package man
+Summary: man components for the libinput package.
+Group: Default
+
+%description man
+man components for the libinput package.
+
+
 %prep
-%setup -q -n libinput-1.10.6
+%setup -q -n libinput-1.10.7
 pushd ..
-cp -a libinput-1.10.6 build32
+cp -a libinput-1.10.7 build32
 popd
 
 %build
@@ -128,7 +129,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1525186665
+export SOURCE_DATE_EPOCH=1526568076
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --prefix /usr --buildtype=plain -Dlibwacom=false  builddir
 ninja -v -C builddir
 pushd ../build32
@@ -189,10 +190,6 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib32/pkgconfig/32libinput.pc
 /usr/lib32/pkgconfig/libinput.pc
 
-%files doc
-%defattr(-,root,root,-)
-%doc /usr/share/man/man1/*
-
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libinput.so.10
@@ -202,3 +199,15 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %defattr(-,root,root,-)
 /usr/lib32/libinput.so.10
 /usr/lib32/libinput.so.10.13.0
+
+%files man
+%defattr(-,root,root,-)
+/usr/share/man/man1/libinput-debug-events.1
+/usr/share/man/man1/libinput-debug-gui.1
+/usr/share/man/man1/libinput-list-devices.1
+/usr/share/man/man1/libinput-measure-touch-size.1
+/usr/share/man/man1/libinput-measure-touchpad-pressure.1
+/usr/share/man/man1/libinput-measure-touchpad-tap.1
+/usr/share/man/man1/libinput-measure-trackpoint-range.1
+/usr/share/man/man1/libinput-measure.1
+/usr/share/man/man1/libinput.1
