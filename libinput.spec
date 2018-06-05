@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.10.7
-Release  : 31
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.10.7.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.10.7.tar.xz
-Source99 : https://www.freedesktop.org/software/libinput/libinput-1.10.7.tar.xz.sig
+Version  : 1.11.0
+Release  : 32
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.11.0.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.11.0.tar.xz
+Source99 : https://www.freedesktop.org/software/libinput/libinput-1.11.0.tar.xz.sig
 Summary  : Input device library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
@@ -51,8 +51,9 @@ BuildRequires : valgrind
 %description
 libinput
 ========
-libinput is a library that handles input devices for display servers and other
-applications that need to directly deal with input devices.
+libinput is a library that provides a full input stack for display servers
+and other applications that need to handle input devices provided by the
+kernel.
 
 %package bin
 Summary: bin components for the libinput package.
@@ -119,9 +120,9 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.10.7
+%setup -q -n libinput-1.11.0
 pushd ..
-cp -a libinput-1.10.7 build32
+cp -a libinput-1.11.0 build32
 popd
 
 %build
@@ -129,7 +130,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1526568076
+export SOURCE_DATE_EPOCH=1528185709
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --prefix /usr --buildtype=plain -Dlibwacom=false  builddir
 ninja -v -C builddir
 pushd ../build32
@@ -162,16 +163,17 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files bin
 %defattr(-,root,root,-)
 /usr/bin/libinput
-/usr/bin/libinput-debug-events
-/usr/bin/libinput-list-devices
 /usr/libexec/libinput/libinput-debug-events
 /usr/libexec/libinput/libinput-debug-gui
 /usr/libexec/libinput/libinput-list-devices
 /usr/libexec/libinput/libinput-measure
+/usr/libexec/libinput/libinput-measure-fuzz
 /usr/libexec/libinput/libinput-measure-touch-size
 /usr/libexec/libinput/libinput-measure-touchpad-pressure
 /usr/libexec/libinput/libinput-measure-touchpad-tap
 /usr/libexec/libinput/libinput-measure-trackpoint-range
+/usr/libexec/libinput/libinput-record
+/usr/libexec/libinput/libinput-replay
 
 %files config
 %defattr(-,root,root,-)
@@ -205,9 +207,12 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/share/man/man1/libinput-debug-events.1
 /usr/share/man/man1/libinput-debug-gui.1
 /usr/share/man/man1/libinput-list-devices.1
+/usr/share/man/man1/libinput-measure-fuzz.1
 /usr/share/man/man1/libinput-measure-touch-size.1
 /usr/share/man/man1/libinput-measure-touchpad-pressure.1
 /usr/share/man/man1/libinput-measure-touchpad-tap.1
 /usr/share/man/man1/libinput-measure-trackpoint-range.1
 /usr/share/man/man1/libinput-measure.1
+/usr/share/man/man1/libinput-record.1
+/usr/share/man/man1/libinput-replay.1
 /usr/share/man/man1/libinput.1
