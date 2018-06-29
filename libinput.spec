@@ -5,17 +5,18 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.11.0
-Release  : 32
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.11.0.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.11.0.tar.xz
-Source99 : https://www.freedesktop.org/software/libinput/libinput-1.11.0.tar.xz.sig
+Version  : 1.11.1
+Release  : 33
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.11.1.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.11.1.tar.xz
+Source99 : https://www.freedesktop.org/software/libinput/libinput-1.11.1.tar.xz.sig
 Summary  : Input device library
 Group    : Development/Tools
-License  : Apache-2.0 MIT
+License  : Apache-2.0
 Requires: libinput-bin
 Requires: libinput-config
 Requires: libinput-lib
+Requires: libinput-license
 Requires: libinput-man
 BuildRequires : cairo-dev32
 BuildRequires : doxygen
@@ -59,6 +60,7 @@ kernel.
 Summary: bin components for the libinput package.
 Group: Binaries
 Requires: libinput-config
+Requires: libinput-license
 Requires: libinput-man
 
 %description bin
@@ -98,6 +100,7 @@ dev32 components for the libinput package.
 %package lib
 Summary: lib components for the libinput package.
 Group: Libraries
+Requires: libinput-license
 
 %description lib
 lib components for the libinput package.
@@ -106,9 +109,18 @@ lib components for the libinput package.
 %package lib32
 Summary: lib32 components for the libinput package.
 Group: Default
+Requires: libinput-license
 
 %description lib32
 lib32 components for the libinput package.
+
+
+%package license
+Summary: license components for the libinput package.
+Group: Default
+
+%description license
+license components for the libinput package.
 
 
 %package man
@@ -120,9 +132,9 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.11.0
+%setup -q -n libinput-1.11.1
 pushd ..
-cp -a libinput-1.11.0 build32
+cp -a libinput-1.11.1 build32
 popd
 
 %build
@@ -130,7 +142,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1528185709
+export SOURCE_DATE_EPOCH=1530279476
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --prefix /usr --buildtype=plain -Dlibwacom=false  builddir
 ninja -v -C builddir
 pushd ../build32
@@ -143,6 +155,8 @@ ninja -v -C builddir
 popd
 
 %install
+mkdir -p %{buildroot}/usr/share/doc/libinput
+cp doc/style/LICENSE %{buildroot}/usr/share/doc/libinput/doc_style_LICENSE
 pushd ../build32
 DESTDIR=%{buildroot} ninja -C builddir install
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -201,6 +215,10 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %defattr(-,root,root,-)
 /usr/lib32/libinput.so.10
 /usr/lib32/libinput.so.10.13.0
+
+%files license
+%defattr(-,root,root,-)
+/usr/share/doc/libinput/doc_style_LICENSE
 
 %files man
 %defattr(-,root,root,-)
