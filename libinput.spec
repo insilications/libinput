@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.11.2
-Release  : 34
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.11.2.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.11.2.tar.xz
-Source99 : https://www.freedesktop.org/software/libinput/libinput-1.11.2.tar.xz.sig
+Version  : 1.11.3
+Release  : 35
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.11.3.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.11.3.tar.xz
+Source99 : https://www.freedesktop.org/software/libinput/libinput-1.11.3.tar.xz.sig
 Summary  : Input device library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
@@ -18,6 +18,7 @@ Requires: libinput-config
 Requires: libinput-lib
 Requires: libinput-license
 Requires: libinput-man
+BuildRequires : buildreq-meson
 BuildRequires : cairo-dev32
 BuildRequires : doxygen
 BuildRequires : gcc-dev32
@@ -28,8 +29,6 @@ BuildRequires : glib-dev32
 BuildRequires : glibc-dev32
 BuildRequires : glibc-libc32
 BuildRequires : graphviz
-BuildRequires : meson
-BuildRequires : ninja
 BuildRequires : pango-dev32
 BuildRequires : pkgconfig(32atk)
 BuildRequires : pkgconfig(32check)
@@ -45,7 +44,6 @@ BuildRequires : pkgconfig(gtk+-3.0)
 BuildRequires : pkgconfig(libevdev)
 BuildRequires : pkgconfig(libudev)
 BuildRequires : pkgconfig(mtdev)
-BuildRequires : python3
 BuildRequires : python3-dev
 BuildRequires : valgrind
 
@@ -132,9 +130,9 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.11.2
+%setup -q -n libinput-1.11.3
 pushd ..
-cp -a libinput-1.11.2 build32
+cp -a libinput-1.11.3 build32
 popd
 
 %build
@@ -142,7 +140,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1530675373
+export SOURCE_DATE_EPOCH=1532524923
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --prefix /usr --buildtype=plain -Dlibwacom=false  builddir
 ninja -v -C builddir
 pushd ../build32
