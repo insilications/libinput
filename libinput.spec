@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.12.0
-Release  : 37
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.12.0.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.12.0.tar.xz
-Source99 : https://www.freedesktop.org/software/libinput/libinput-1.12.0.tar.xz.sig
+Version  : 1.12.1
+Release  : 38
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.12.1.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.12.1.tar.xz
+Source99 : https://www.freedesktop.org/software/libinput/libinput-1.12.1.tar.xz.sig
 Summary  : Input device library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
@@ -59,10 +59,10 @@ kernel.
 %package bin
 Summary: bin components for the libinput package.
 Group: Binaries
-Requires: libinput-data
-Requires: libinput-config
-Requires: libinput-license
-Requires: libinput-man
+Requires: libinput-data = %{version}-%{release}
+Requires: libinput-config = %{version}-%{release}
+Requires: libinput-license = %{version}-%{release}
+Requires: libinput-man = %{version}-%{release}
 
 %description bin
 bin components for the libinput package.
@@ -87,10 +87,10 @@ data components for the libinput package.
 %package dev
 Summary: dev components for the libinput package.
 Group: Development
-Requires: libinput-lib
-Requires: libinput-bin
-Requires: libinput-data
-Provides: libinput-devel
+Requires: libinput-lib = %{version}-%{release}
+Requires: libinput-bin = %{version}-%{release}
+Requires: libinput-data = %{version}-%{release}
+Provides: libinput-devel = %{version}-%{release}
 
 %description dev
 dev components for the libinput package.
@@ -99,10 +99,10 @@ dev components for the libinput package.
 %package dev32
 Summary: dev32 components for the libinput package.
 Group: Default
-Requires: libinput-lib32
-Requires: libinput-bin
-Requires: libinput-data
-Requires: libinput-dev
+Requires: libinput-lib32 = %{version}-%{release}
+Requires: libinput-bin = %{version}-%{release}
+Requires: libinput-data = %{version}-%{release}
+Requires: libinput-dev = %{version}-%{release}
 
 %description dev32
 dev32 components for the libinput package.
@@ -111,8 +111,8 @@ dev32 components for the libinput package.
 %package lib
 Summary: lib components for the libinput package.
 Group: Libraries
-Requires: libinput-data
-Requires: libinput-license
+Requires: libinput-data = %{version}-%{release}
+Requires: libinput-license = %{version}-%{release}
 
 %description lib
 lib components for the libinput package.
@@ -121,8 +121,8 @@ lib components for the libinput package.
 %package lib32
 Summary: lib32 components for the libinput package.
 Group: Default
-Requires: libinput-data
-Requires: libinput-license
+Requires: libinput-data = %{version}-%{release}
+Requires: libinput-license = %{version}-%{release}
 
 %description lib32
 lib32 components for the libinput package.
@@ -145,9 +145,9 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.12.0
+%setup -q -n libinput-1.12.1
 pushd ..
-cp -a libinput-1.12.0 build32
+cp -a libinput-1.12.1 build32
 popd
 
 %build
@@ -155,7 +155,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1536663910
+export SOURCE_DATE_EPOCH=1538577356
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --prefix /usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false  builddir
 ninja -v -C builddir
 pushd ../build32
@@ -218,6 +218,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/share/libinput/30-vendor-elantech.quirks
 /usr/share/libinput/30-vendor-huion.quirks
 /usr/share/libinput/30-vendor-ibm.quirks
+/usr/share/libinput/30-vendor-kensington.quirks
 /usr/share/libinput/30-vendor-logitech.quirks
 /usr/share/libinput/30-vendor-microsoft.quirks
 /usr/share/libinput/30-vendor-razer.quirks
@@ -257,12 +258,12 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib32/libinput.so.10.13.0
 
 %files license
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/doc/libinput/COPYING
 /usr/share/doc/libinput/doc_api_style_LICENSE
 
 %files man
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/man/man1/libinput-debug-events.1
 /usr/share/man/man1/libinput-debug-gui.1
 /usr/share/man/man1/libinput-list-devices.1
