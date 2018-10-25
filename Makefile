@@ -1,5 +1,5 @@
 PKG_NAME := libinput
-URL = https://www.freedesktop.org/software/libinput/libinput-1.12.1.tar.xz
+URL = https://www.freedesktop.org/software/libinput/libinput-1.12.2.tar.xz
 ARCHIVES = 
 
 include ../common/Makefile.common

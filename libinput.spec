@@ -5,20 +5,21 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.12.1
-Release  : 38
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.12.1.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.12.1.tar.xz
-Source99 : https://www.freedesktop.org/software/libinput/libinput-1.12.1.tar.xz.sig
+Version  : 1.12.2
+Release  : 39
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.12.2.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.12.2.tar.xz
+Source99 : https://www.freedesktop.org/software/libinput/libinput-1.12.2.tar.xz.sig
 Summary  : Input device library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
-Requires: libinput-bin
-Requires: libinput-config
-Requires: libinput-lib
-Requires: libinput-license
-Requires: libinput-data
-Requires: libinput-man
+Requires: libinput-bin = %{version}-%{release}
+Requires: libinput-config = %{version}-%{release}
+Requires: libinput-data = %{version}-%{release}
+Requires: libinput-lib = %{version}-%{release}
+Requires: libinput-libexec = %{version}-%{release}
+Requires: libinput-license = %{version}-%{release}
+Requires: libinput-man = %{version}-%{release}
 BuildRequires : buildreq-meson
 BuildRequires : cairo-dev32
 BuildRequires : doxygen
@@ -60,6 +61,7 @@ kernel.
 Summary: bin components for the libinput package.
 Group: Binaries
 Requires: libinput-data = %{version}-%{release}
+Requires: libinput-libexec = %{version}-%{release}
 Requires: libinput-config = %{version}-%{release}
 Requires: libinput-license = %{version}-%{release}
 Requires: libinput-man = %{version}-%{release}
@@ -112,6 +114,7 @@ dev32 components for the libinput package.
 Summary: lib components for the libinput package.
 Group: Libraries
 Requires: libinput-data = %{version}-%{release}
+Requires: libinput-libexec = %{version}-%{release}
 Requires: libinput-license = %{version}-%{release}
 
 %description lib
@@ -126,6 +129,16 @@ Requires: libinput-license = %{version}-%{release}
 
 %description lib32
 lib32 components for the libinput package.
+
+
+%package libexec
+Summary: libexec components for the libinput package.
+Group: Default
+Requires: libinput-config = %{version}-%{release}
+Requires: libinput-license = %{version}-%{release}
+
+%description libexec
+libexec components for the libinput package.
 
 
 %package license
@@ -145,9 +158,9 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.12.1
+%setup -q -n libinput-1.12.2
 pushd ..
-cp -a libinput-1.12.1 build32
+cp -a libinput-1.12.2 build32
 popd
 
 %build
@@ -155,22 +168,23 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1538577356
+export SOURCE_DATE_EPOCH=1540471231
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --prefix /usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false  builddir
 ninja -v -C builddir
 pushd ../build32
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export ASFLAGS="$ASFLAGS --32"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
-CFLAGS="$CFLAGS -m32" CXXFLAGS="$CXXFLAGS -m32" LDFLAGS="$LDFLAGS -m32" PKG_CONFIG_PATH="/usr/lib32/pkgconfig" meson --libdir=/usr/lib32 --prefix /usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false  builddir
+meson --libdir=/usr/lib32 --prefix /usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false  builddir
 ninja -v -C builddir
 popd
 
 %install
-mkdir -p %{buildroot}/usr/share/doc/libinput
-cp COPYING %{buildroot}/usr/share/doc/libinput/COPYING
-cp doc/api/style/LICENSE %{buildroot}/usr/share/doc/libinput/doc_api_style_LICENSE
+mkdir -p %{buildroot}/usr/share/package-licenses/libinput
+cp COPYING %{buildroot}/usr/share/package-licenses/libinput/COPYING
+cp doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/doc_api_style_LICENSE
 pushd ../build32
 DESTDIR=%{buildroot} ninja -C builddir install
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -190,17 +204,6 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files bin
 %defattr(-,root,root,-)
 /usr/bin/libinput
-/usr/libexec/libinput/libinput-debug-events
-/usr/libexec/libinput/libinput-debug-gui
-/usr/libexec/libinput/libinput-list-devices
-/usr/libexec/libinput/libinput-measure
-/usr/libexec/libinput/libinput-measure-fuzz
-/usr/libexec/libinput/libinput-measure-touch-size
-/usr/libexec/libinput/libinput-measure-touchpad-pressure
-/usr/libexec/libinput/libinput-measure-touchpad-tap
-/usr/libexec/libinput/libinput-quirks
-/usr/libexec/libinput/libinput-record
-/usr/libexec/libinput/libinput-replay
 
 %files config
 %defattr(-,root,root,-)
@@ -223,6 +226,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/share/libinput/30-vendor-microsoft.quirks
 /usr/share/libinput/30-vendor-razer.quirks
 /usr/share/libinput/30-vendor-synaptics.quirks
+/usr/share/libinput/30-vendor-vmware.quirks
 /usr/share/libinput/30-vendor-wacom.quirks
 /usr/share/libinput/50-system-acer.quirks
 /usr/share/libinput/50-system-apple.quirks
@@ -257,10 +261,24 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/lib32/libinput.so.10
 /usr/lib32/libinput.so.10.13.0
 
+%files libexec
+%defattr(-,root,root,-)
+/usr/libexec/libinput/libinput-debug-events
+/usr/libexec/libinput/libinput-debug-gui
+/usr/libexec/libinput/libinput-list-devices
+/usr/libexec/libinput/libinput-measure
+/usr/libexec/libinput/libinput-measure-fuzz
+/usr/libexec/libinput/libinput-measure-touch-size
+/usr/libexec/libinput/libinput-measure-touchpad-pressure
+/usr/libexec/libinput/libinput-measure-touchpad-tap
+/usr/libexec/libinput/libinput-quirks
+/usr/libexec/libinput/libinput-record
+/usr/libexec/libinput/libinput-replay
+
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/doc/libinput/COPYING
-/usr/share/doc/libinput/doc_api_style_LICENSE
+/usr/share/package-licenses/libinput/COPYING
+/usr/share/package-licenses/libinput/doc_api_style_LICENSE
 
 %files man
 %defattr(0644,root,root,0755)
