@@ -6,7 +6,7 @@
 #
 Name     : libinput
 Version  : 1.12.2
-Release  : 39
+Release  : 40
 URL      : https://www.freedesktop.org/software/libinput/libinput-1.12.2.tar.xz
 Source0  : https://www.freedesktop.org/software/libinput/libinput-1.12.2.tar.xz
 Source99 : https://www.freedesktop.org/software/libinput/libinput-1.12.2.tar.xz.sig
@@ -56,6 +56,14 @@ libinput
 libinput is a library that provides a full input stack for display servers
 and other applications that need to handle input devices provided by the
 kernel.
+
+%package abi
+Summary: abi components for the libinput package.
+Group: Default
+
+%description abi
+abi components for the libinput package.
+
 
 %package bin
 Summary: bin components for the libinput package.
@@ -168,7 +176,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1540471231
+export SOURCE_DATE_EPOCH=1541605807
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --prefix /usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false  builddir
 ninja -v -C builddir
 pushd ../build32
@@ -200,6 +208,11 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %defattr(-,root,root,-)
 /usr/lib/udev/libinput-device-group
 /usr/lib/udev/libinput-model-quirks
+
+%files abi
+%defattr(-,root,root,-)
+/usr/share/abi/libinput.so.10.13.0.abi
+/usr/share/abi/libinput.so.10.abi
 
 %files bin
 %defattr(-,root,root,-)
