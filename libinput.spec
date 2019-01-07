@@ -5,12 +5,12 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.12.4
-Release  : 43
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.12.4.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.12.4.tar.xz
-Source99 : https://www.freedesktop.org/software/libinput/libinput-1.12.4.tar.xz.sig
-Summary  : Input device library
+Version  : 1.12.5
+Release  : 44
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.12.5.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.12.5.tar.xz
+Source99 : https://www.freedesktop.org/software/libinput/libinput-1.12.5.tar.xz.sig
+Summary  : Input device management and event handling library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
 Requires: libinput-bin = %{version}-%{release}
@@ -158,9 +158,9 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.12.4
+%setup -q -n libinput-1.12.5
 pushd ..
-cp -a libinput-1.12.4 build32
+cp -a libinput-1.12.5 build32
 popd
 
 %build
@@ -168,7 +168,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1545279443
+export SOURCE_DATE_EPOCH=1546874936
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --prefix /usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false  builddir
 ninja -v -C builddir
 pushd ../build32
