@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.12.6
-Release  : 45
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.12.6.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.12.6.tar.xz
-Source99 : https://www.freedesktop.org/software/libinput/libinput-1.12.6.tar.xz.sig
+Version  : 1.13.0
+Release  : 46
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.13.0.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.13.0.tar.xz
+Source99 : https://www.freedesktop.org/software/libinput/libinput-1.13.0.tar.xz.sig
 Summary  : Input device management and event handling library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
@@ -64,7 +64,6 @@ Requires: libinput-data = %{version}-%{release}
 Requires: libinput-libexec = %{version}-%{release}
 Requires: libinput-config = %{version}-%{release}
 Requires: libinput-license = %{version}-%{release}
-Requires: libinput-man = %{version}-%{release}
 
 %description bin
 bin components for the libinput package.
@@ -93,6 +92,7 @@ Requires: libinput-lib = %{version}-%{release}
 Requires: libinput-bin = %{version}-%{release}
 Requires: libinput-data = %{version}-%{release}
 Provides: libinput-devel = %{version}-%{release}
+Requires: libinput = %{version}-%{release}
 
 %description dev
 dev components for the libinput package.
@@ -158,9 +158,9 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.12.6
+%setup -q -n libinput-1.13.0
 pushd ..
-cp -a libinput-1.12.6 build32
+cp -a libinput-1.13.0 build32
 popd
 
 %build
@@ -168,15 +168,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1548204786
+export SOURCE_DATE_EPOCH=1553866782
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --prefix /usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false  builddir
 ninja -v -C builddir
 pushd ../build32
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-export ASFLAGS="$ASFLAGS --32"
-export CFLAGS="$CFLAGS -m32"
-export CXXFLAGS="$CXXFLAGS -m32"
-export LDFLAGS="$LDFLAGS -m32"
+export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
 meson --libdir=/usr/lib32 --prefix /usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false  builddir
 ninja -v -C builddir
 popd
@@ -296,4 +296,5 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/share/man/man1/libinput-quirks.1
 /usr/share/man/man1/libinput-record.1
 /usr/share/man/man1/libinput-replay.1
+/usr/share/man/man1/libinput-test-suite.1
 /usr/share/man/man1/libinput.1
