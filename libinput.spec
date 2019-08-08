@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.13.4
-Release  : 51
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.13.4.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.13.4.tar.xz
-Source99 : https://www.freedesktop.org/software/libinput/libinput-1.13.4.tar.xz.sig
+Version  : 1.14.0
+Release  : 52
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.14.0.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.14.0.tar.xz
+Source1 : https://www.freedesktop.org/software/libinput/libinput-1.14.0.tar.xz.sig
 Summary  : Input device management and event handling library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
@@ -159,9 +159,9 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.13.4
+%setup -q -n libinput-1.14.0
 pushd ..
-cp -a libinput-1.13.4 build32
+cp -a libinput-1.14.0 build32
 popd
 
 %build
@@ -169,7 +169,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1562056209
+export SOURCE_DATE_EPOCH=1565270886
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -208,7 +209,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files
 %defattr(-,root,root,-)
 /usr/lib/udev/libinput-device-group
-/usr/lib/udev/libinput-model-quirks
+/usr/lib/udev/libinput-fuzz-override
 
 %files bin
 %defattr(-,root,root,-)
@@ -217,7 +218,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files config
 %defattr(-,root,root,-)
 /usr/lib/udev/rules.d/80-libinput-device-groups.rules
-/usr/lib/udev/rules.d/90-libinput-model-quirks.rules
+/usr/lib/udev/rules.d/90-libinput-fuzz-override.rules
 
 %files data
 %defattr(-,root,root,-)
@@ -227,9 +228,8 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/share/libinput/30-vendor-aiptek.quirks
 /usr/share/libinput/30-vendor-alps.quirks
 /usr/share/libinput/30-vendor-contour.quirks
-/usr/share/libinput/30-vendor-cyapa.quirks
+/usr/share/libinput/30-vendor-cypress.quirks
 /usr/share/libinput/30-vendor-elantech.quirks
-/usr/share/libinput/30-vendor-huion.quirks
 /usr/share/libinput/30-vendor-ibm.quirks
 /usr/share/libinput/30-vendor-kensington.quirks
 /usr/share/libinput/30-vendor-logitech.quirks
