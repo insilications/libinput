@@ -6,11 +6,11 @@
 #
 Name     : libinput
 Version  : 1.14.0
-Release  : 52
+Release  : 53
 URL      : https://www.freedesktop.org/software/libinput/libinput-1.14.0.tar.xz
 Source0  : https://www.freedesktop.org/software/libinput/libinput-1.14.0.tar.xz
 Source1 : https://www.freedesktop.org/software/libinput/libinput-1.14.0.tar.xz.sig
-Summary  : Input device management and event handling library
+Summary  : Input device library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
 Requires: libinput-bin = %{version}-%{release}
@@ -93,7 +93,6 @@ Requires: libinput-bin = %{version}-%{release}
 Requires: libinput-data = %{version}-%{release}
 Provides: libinput-devel = %{version}-%{release}
 Requires: libinput = %{version}-%{release}
-Requires: libinput = %{version}-%{release}
 
 %description dev
 dev components for the libinput package.
@@ -169,8 +168,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1565270886
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1568863137
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -179,15 +177,15 @@ export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
-CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --prefix /usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false  builddir
+CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false  builddir
 ninja -v -C builddir
 pushd ../build32
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
-export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32"
-export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32"
-export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32"
-meson --libdir=/usr/lib32 --prefix /usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false  builddir
+export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
+export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
+export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
+meson --libdir=lib32 --prefix=/usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false  builddir
 ninja -v -C builddir
 popd
 
@@ -252,7 +250,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
+/usr/include/libinput.h
 /usr/lib64/libinput.so
 /usr/lib64/pkgconfig/libinput.pc
 
