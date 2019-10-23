@@ -5,12 +5,12 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.14.0
-Release  : 53
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.14.0.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.14.0.tar.xz
-Source1 : https://www.freedesktop.org/software/libinput/libinput-1.14.0.tar.xz.sig
-Summary  : Input device library
+Version  : 1.14.2
+Release  : 54
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.14.2.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.14.2.tar.xz
+Source1 : https://www.freedesktop.org/software/libinput/libinput-1.14.2.tar.xz.sig
+Summary  : Input device management and event handling library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
 Requires: libinput-bin = %{version}-%{release}
@@ -48,6 +48,7 @@ BuildRequires : pkgconfig(libevdev)
 BuildRequires : pkgconfig(libudev)
 BuildRequires : pkgconfig(mtdev)
 BuildRequires : python3-dev
+BuildRequires : util-linux
 BuildRequires : valgrind
 
 %description
@@ -92,6 +93,7 @@ Requires: libinput-lib = %{version}-%{release}
 Requires: libinput-bin = %{version}-%{release}
 Requires: libinput-data = %{version}-%{release}
 Provides: libinput-devel = %{version}-%{release}
+Requires: libinput = %{version}-%{release}
 Requires: libinput = %{version}-%{release}
 
 %description dev
@@ -158,9 +160,9 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.14.0
+%setup -q -n libinput-1.14.2
 pushd ..
-cp -a libinput-1.14.0 build32
+cp -a libinput-1.14.2 build32
 popd
 
 %build
@@ -168,7 +170,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1568863137
+export SOURCE_DATE_EPOCH=1571848876
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -191,8 +194,8 @@ popd
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/libinput
-cp COPYING %{buildroot}/usr/share/package-licenses/libinput/COPYING
-cp doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/doc_api_style_LICENSE
+cp %{_builddir}/libinput-1.14.2/COPYING %{buildroot}/usr/share/package-licenses/libinput/c015511464588baeb0a5c640848a3f31d1a837b5
+cp %{_builddir}/libinput-1.14.2/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
 pushd ../build32
 DESTDIR=%{buildroot} ninja -C builddir install
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -247,6 +250,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/share/libinput/50-system-lenovo.quirks
 /usr/share/libinput/50-system-system76.quirks
 /usr/share/libinput/50-system-toshiba.quirks
+/usr/share/zsh/site-functions/_libinput
 
 %files dev
 %defattr(-,root,root,-)
@@ -286,8 +290,8 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/libinput/COPYING
-/usr/share/package-licenses/libinput/doc_api_style_LICENSE
+/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
+/usr/share/package-licenses/libinput/c015511464588baeb0a5c640848a3f31d1a837b5
 
 %files man
 %defattr(0644,root,root,0755)
