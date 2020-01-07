@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.14.3
-Release  : 55
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.14.3.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.14.3.tar.xz
-Source1 : https://www.freedesktop.org/software/libinput/libinput-1.14.3.tar.xz.sig
+Version  : 1.15.0
+Release  : 56
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.15.0.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.15.0.tar.xz
+Source1  : https://www.freedesktop.org/software/libinput/libinput-1.15.0.tar.xz.sig
 Summary  : Input device management and event handling library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
@@ -48,7 +48,6 @@ BuildRequires : pkgconfig(libevdev)
 BuildRequires : pkgconfig(libudev)
 BuildRequires : pkgconfig(mtdev)
 BuildRequires : python3-dev
-BuildRequires : util-linux
 BuildRequires : valgrind
 
 %description
@@ -160,9 +159,10 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.14.3
+%setup -q -n libinput-1.15.0
+cd %{_builddir}/libinput-1.15.0
 pushd ..
-cp -a libinput-1.14.3 build32
+cp -a libinput-1.15.0 build32
 popd
 
 %build
@@ -170,7 +170,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1572288537
+export SOURCE_DATE_EPOCH=1578417451
 # -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
@@ -194,8 +194,8 @@ popd
 
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/libinput
-cp %{_builddir}/libinput-1.14.3/COPYING %{buildroot}/usr/share/package-licenses/libinput/c015511464588baeb0a5c640848a3f31d1a837b5
-cp %{_builddir}/libinput-1.14.3/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
+cp %{_builddir}/libinput-1.15.0/COPYING %{buildroot}/usr/share/package-licenses/libinput/c015511464588baeb0a5c640848a3f31d1a837b5
+cp %{_builddir}/libinput-1.15.0/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
 pushd ../build32
 DESTDIR=%{buildroot} ninja -C builddir install
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -210,7 +210,8 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files
 %defattr(-,root,root,-)
 /usr/lib/udev/libinput-device-group
-/usr/lib/udev/libinput-fuzz-override
+/usr/lib/udev/libinput-fuzz-extract
+/usr/lib/udev/libinput-fuzz-to-zero
 
 %files bin
 %defattr(-,root,root,-)
@@ -234,6 +235,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 /usr/share/libinput/30-vendor-ibm.quirks
 /usr/share/libinput/30-vendor-kensington.quirks
 /usr/share/libinput/30-vendor-logitech.quirks
+/usr/share/libinput/30-vendor-madcatz.quirks
 /usr/share/libinput/30-vendor-microsoft.quirks
 /usr/share/libinput/30-vendor-razer.quirks
 /usr/share/libinput/30-vendor-synaptics.quirks
@@ -278,6 +280,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %defattr(-,root,root,-)
 /usr/libexec/libinput/libinput-debug-events
 /usr/libexec/libinput/libinput-debug-gui
+/usr/libexec/libinput/libinput-debug-tablet
 /usr/libexec/libinput/libinput-list-devices
 /usr/libexec/libinput/libinput-measure
 /usr/libexec/libinput/libinput-measure-fuzz
@@ -297,6 +300,7 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %defattr(0644,root,root,0755)
 /usr/share/man/man1/libinput-debug-events.1
 /usr/share/man/man1/libinput-debug-gui.1
+/usr/share/man/man1/libinput-debug-tablet.1
 /usr/share/man/man1/libinput-list-devices.1
 /usr/share/man/man1/libinput-measure-fuzz.1
 /usr/share/man/man1/libinput-measure-touch-size.1
