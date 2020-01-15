@@ -6,7 +6,7 @@
 #
 Name     : libinput
 Version  : 1.15.0
-Release  : 56
+Release  : 57
 URL      : https://www.freedesktop.org/software/libinput/libinput-1.15.0.tar.xz
 Source0  : https://www.freedesktop.org/software/libinput/libinput-1.15.0.tar.xz
 Source1  : https://www.freedesktop.org/software/libinput/libinput-1.15.0.tar.xz.sig
@@ -170,7 +170,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1578417451
+export SOURCE_DATE_EPOCH=1579104044
 # -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
@@ -180,7 +180,7 @@ export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
-CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false  builddir
+CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false -Ddebug-gui=false  builddir
 ninja -v -C builddir
 pushd ../build32
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
@@ -188,7 +188,7 @@ export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
 export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
 export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
 export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
-meson --libdir=lib32 --prefix=/usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false  builddir
+meson --libdir=lib32 --prefix=/usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false -Ddebug-gui=false  builddir
 ninja -v -C builddir
 popd
 
@@ -279,7 +279,6 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files libexec
 %defattr(-,root,root,-)
 /usr/libexec/libinput/libinput-debug-events
-/usr/libexec/libinput/libinput-debug-gui
 /usr/libexec/libinput/libinput-debug-tablet
 /usr/libexec/libinput/libinput-list-devices
 /usr/libexec/libinput/libinput-measure
@@ -299,7 +298,6 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files man
 %defattr(0644,root,root,0755)
 /usr/share/man/man1/libinput-debug-events.1
-/usr/share/man/man1/libinput-debug-gui.1
 /usr/share/man/man1/libinput-debug-tablet.1
 /usr/share/man/man1/libinput-list-devices.1
 /usr/share/man/man1/libinput-measure-fuzz.1
