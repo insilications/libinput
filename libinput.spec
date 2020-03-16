@@ -5,12 +5,12 @@
 # Source0 file verified with key 0xE23B7E70B467F0BF (office@who-t.net)
 #
 Name     : libinput
-Version  : 1.15.0
-Release  : 57
-URL      : https://www.freedesktop.org/software/libinput/libinput-1.15.0.tar.xz
-Source0  : https://www.freedesktop.org/software/libinput/libinput-1.15.0.tar.xz
-Source1  : https://www.freedesktop.org/software/libinput/libinput-1.15.0.tar.xz.sig
-Summary  : Input device management and event handling library
+Version  : 1.15.3
+Release  : 58
+URL      : https://www.freedesktop.org/software/libinput/libinput-1.15.3.tar.xz
+Source0  : https://www.freedesktop.org/software/libinput/libinput-1.15.3.tar.xz
+Source1  : https://www.freedesktop.org/software/libinput/libinput-1.15.3.tar.xz.sig
+Summary  : Input device library
 Group    : Development/Tools
 License  : Apache-2.0 MIT
 Requires: libinput-bin = %{version}-%{release}
@@ -93,7 +93,6 @@ Requires: libinput-bin = %{version}-%{release}
 Requires: libinput-data = %{version}-%{release}
 Provides: libinput-devel = %{version}-%{release}
 Requires: libinput = %{version}-%{release}
-Requires: libinput = %{version}-%{release}
 
 %description dev
 dev components for the libinput package.
@@ -159,10 +158,10 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-1.15.0
-cd %{_builddir}/libinput-1.15.0
+%setup -q -n libinput-1.15.3
+cd %{_builddir}/libinput-1.15.3
 pushd ..
-cp -a libinput-1.15.0 build32
+cp -a libinput-1.15.3 build32
 popd
 
 %build
@@ -170,8 +169,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1579104044
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1584378788
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -182,7 +180,7 @@ export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false -Ddebug-gui=false  builddir
 ninja -v -C builddir
-pushd ../build32
+pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
 export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
@@ -192,11 +190,20 @@ meson --libdir=lib32 --prefix=/usr --buildtype=plain -Dlibwacom=false -Ddocument
 ninja -v -C builddir
 popd
 
+%check
+export LANG=C.UTF-8
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
+meson test -C builddir || :
+cd ../build32;
+meson test -C builddir || : || :
+
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/libinput
-cp %{_builddir}/libinput-1.15.0/COPYING %{buildroot}/usr/share/package-licenses/libinput/c015511464588baeb0a5c640848a3f31d1a837b5
-cp %{_builddir}/libinput-1.15.0/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
-pushd ../build32
+cp %{_builddir}/libinput-1.15.3/COPYING %{buildroot}/usr/share/package-licenses/libinput/c015511464588baeb0a5c640848a3f31d1a837b5
+cp %{_builddir}/libinput-1.15.3/doc/api/style/LICENSE %{buildroot}/usr/share/package-licenses/libinput/5a48bb048772f9029b604fbdd869d92fddae1cef
+pushd ../build32/
 DESTDIR=%{buildroot} ninja -C builddir install
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
 then
