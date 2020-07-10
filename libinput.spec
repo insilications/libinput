@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : libinput
-Version  : 20.06.18
-Release  : 3
-URL      : /insilications/build/clearlinux/packages/libinput/libinput-20.06.18.zip
-Source0  : /insilications/build/clearlinux/packages/libinput/libinput-20.06.18.zip
+Version  : 20.07.10
+Release  : 4
+URL      : file:///insilications/build/clearlinux/packages/libinput/libinput-20.07.10.zip
+Source0  : file:///insilications/build/clearlinux/packages/libinput/libinput-20.07.10.zip
 Summary  : Input device library
 Group    : Development/Tools
 License  : GPL-2.0
@@ -108,15 +108,15 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n libinput-20.06.18
-cd %{_builddir}/libinput-20.06.18
+%setup -q -n libinput-20.07.10
+cd %{_builddir}/libinput-20.07.10
 
 %build
 unset http_proxy
 unset https_proxy
 unset no_proxy
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1594388075
+export SOURCE_DATE_EPOCH=1594388257
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -168,36 +168,36 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files data
 %defattr(-,root,root,-)
-/usr/share/libinput/quirks/10-generic-keyboard.quirks
-/usr/share/libinput/quirks/10-generic-lid.quirks
-/usr/share/libinput/quirks/10-generic-trackball.quirks
-/usr/share/libinput/quirks/30-vendor-aiptek.quirks
-/usr/share/libinput/quirks/30-vendor-alps.quirks
-/usr/share/libinput/quirks/30-vendor-contour.quirks
-/usr/share/libinput/quirks/30-vendor-cypress.quirks
-/usr/share/libinput/quirks/30-vendor-elantech.quirks
-/usr/share/libinput/quirks/30-vendor-ibm.quirks
-/usr/share/libinput/quirks/30-vendor-kensington.quirks
-/usr/share/libinput/quirks/30-vendor-logitech.quirks
-/usr/share/libinput/quirks/30-vendor-madcatz.quirks
-/usr/share/libinput/quirks/30-vendor-microsoft.quirks
-/usr/share/libinput/quirks/30-vendor-razer.quirks
-/usr/share/libinput/quirks/30-vendor-synaptics.quirks
-/usr/share/libinput/quirks/30-vendor-trust.quirks
-/usr/share/libinput/quirks/30-vendor-vmware.quirks
-/usr/share/libinput/quirks/30-vendor-wacom.quirks
-/usr/share/libinput/quirks/50-system-acer.quirks
-/usr/share/libinput/quirks/50-system-apple.quirks
-/usr/share/libinput/quirks/50-system-asus.quirks
-/usr/share/libinput/quirks/50-system-chicony.quirks
-/usr/share/libinput/quirks/50-system-cyborg.quirks
-/usr/share/libinput/quirks/50-system-dell.quirks
-/usr/share/libinput/quirks/50-system-google.quirks
-/usr/share/libinput/quirks/50-system-hp.quirks
-/usr/share/libinput/quirks/50-system-lenovo.quirks
-/usr/share/libinput/quirks/50-system-sony.quirks
-/usr/share/libinput/quirks/50-system-system76.quirks
-/usr/share/libinput/quirks/50-system-toshiba.quirks
+/usr/share/libinput/10-generic-keyboard.quirks
+/usr/share/libinput/10-generic-lid.quirks
+/usr/share/libinput/10-generic-trackball.quirks
+/usr/share/libinput/30-vendor-aiptek.quirks
+/usr/share/libinput/30-vendor-alps.quirks
+/usr/share/libinput/30-vendor-contour.quirks
+/usr/share/libinput/30-vendor-cypress.quirks
+/usr/share/libinput/30-vendor-elantech.quirks
+/usr/share/libinput/30-vendor-ibm.quirks
+/usr/share/libinput/30-vendor-kensington.quirks
+/usr/share/libinput/30-vendor-logitech.quirks
+/usr/share/libinput/30-vendor-madcatz.quirks
+/usr/share/libinput/30-vendor-microsoft.quirks
+/usr/share/libinput/30-vendor-razer.quirks
+/usr/share/libinput/30-vendor-synaptics.quirks
+/usr/share/libinput/30-vendor-trust.quirks
+/usr/share/libinput/30-vendor-vmware.quirks
+/usr/share/libinput/30-vendor-wacom.quirks
+/usr/share/libinput/50-system-acer.quirks
+/usr/share/libinput/50-system-apple.quirks
+/usr/share/libinput/50-system-asus.quirks
+/usr/share/libinput/50-system-chicony.quirks
+/usr/share/libinput/50-system-cyborg.quirks
+/usr/share/libinput/50-system-dell.quirks
+/usr/share/libinput/50-system-google.quirks
+/usr/share/libinput/50-system-hp.quirks
+/usr/share/libinput/50-system-lenovo.quirks
+/usr/share/libinput/50-system-sony.quirks
+/usr/share/libinput/50-system-system76.quirks
+/usr/share/libinput/50-system-toshiba.quirks
 /usr/share/zsh/site-functions/_libinput
 
 %files dev
