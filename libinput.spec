@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : libinput
 Version  : 1.16.1
-Release  : 4
+Release  : 5
 URL      : file:///insilications/build/clearlinux/packages/libinput/libinput-1.16.1.tar.gz
 Source0  : file:///insilications/build/clearlinux/packages/libinput/libinput-1.16.1.tar.gz
 Summary  : Input device library
@@ -155,10 +155,10 @@ man components for the libinput package.
 
 
 %prep
-%setup -q -n clone_archive
-cd %{_builddir}/clone_archive
+%setup -q -n libinput
+cd %{_builddir}/libinput
 pushd ..
-cp -a clone_archive build32
+cp -a libinput build32
 popd
 
 %build
@@ -166,7 +166,7 @@ unset http_proxy
 unset https_proxy
 unset no_proxy
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1598466712
+export SOURCE_DATE_EPOCH=1599405551
 export GCC_IGNORE_WERROR=1
 ## altflags_pgo content
 ## pgo generate
@@ -190,6 +190,9 @@ export RANLIB=gcc-ranlib
 export NM=gcc-nm
 #export CCACHE_DISABLE=1
 ## altflags_pgo end
+##
+%define _lto_cflags 1
+##
 export CFLAGS="${CFLAGS_GENERATE}"
 export CXXFLAGS="${CXXFLAGS_GENERATE}"
 export FFLAGS="${FFLAGS_GENERATE}"
