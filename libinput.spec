@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : libinput
 Version  : 1.16.1
-Release  : 5
+Release  : 6
 URL      : file:///insilications/build/clearlinux/packages/libinput/libinput-1.16.1.tar.gz
 Source0  : file:///insilications/build/clearlinux/packages/libinput/libinput-1.16.1.tar.gz
 Summary  : Input device library
@@ -165,8 +165,9 @@ popd
 unset http_proxy
 unset https_proxy
 unset no_proxy
+export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1599405551
+export SOURCE_DATE_EPOCH=1600328214
 export GCC_IGNORE_WERROR=1
 ## altflags_pgo content
 ## pgo generate
@@ -202,7 +203,7 @@ meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dlibwacom=false -Ddocument
 ninja -v -C builddir
 
 meson test -C builddir || :
-find builddir/ -type f -not -name '*.gcno' -delete -print
+find builddir/ -type f,l -not -name '*.gcno' -delete -print
 export CFLAGS="${CFLAGS_USE}"
 export CXXFLAGS="${CXXFLAGS_USE}"
 export FFLAGS="${FFLAGS_USE}"
@@ -232,6 +233,7 @@ export LANG=C.UTF-8
 unset http_proxy
 unset https_proxy
 unset no_proxy
+export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 meson test -C builddir || :
 cd ../build32;
 meson test -C builddir || : || :
@@ -250,9 +252,6 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/udev/libinput-device-group
-/usr/lib/udev/libinput-fuzz-extract
-/usr/lib/udev/libinput-fuzz-to-zero
 
 %files bin
 %defattr(-,root,root,-)
@@ -300,6 +299,9 @@ DESTDIR=%{buildroot} ninja -C builddir install
 %files dev
 %defattr(-,root,root,-)
 /usr/include/libinput.h
+/usr/lib/udev/libinput-device-group
+/usr/lib/udev/libinput-fuzz-extract
+/usr/lib/udev/libinput-fuzz-to-zero
 /usr/lib64/libinput.so
 /usr/lib64/pkgconfig/libinput.pc
 
