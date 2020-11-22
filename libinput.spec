@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : libinput
 Version  : 1.16.1
-Release  : 6
+Release  : 7
 URL      : file:///insilications/build/clearlinux/packages/libinput/libinput-1.16.1.tar.gz
 Source0  : file:///insilications/build/clearlinux/packages/libinput/libinput-1.16.1.tar.gz
 Summary  : Input device library
@@ -18,7 +18,6 @@ Requires: libinput-lib = %{version}-%{release}
 Requires: libinput-libexec = %{version}-%{release}
 Requires: libinput-man = %{version}-%{release}
 BuildRequires : buildreq-meson
-BuildRequires : cairo-dev32
 BuildRequires : doxygen
 BuildRequires : findutils
 BuildRequires : fribidi-dev
@@ -26,18 +25,14 @@ BuildRequires : fribidi-staticdev
 BuildRequires : gcc-dev32
 BuildRequires : gcc-libgcc32
 BuildRequires : gcc-libstdc++32
-BuildRequires : gdk-pixbuf-dev32
 BuildRequires : glib-dev32
 BuildRequires : glibc-dev32
 BuildRequires : glibc-libc32
 BuildRequires : graphviz
 BuildRequires : graphviz-extras
-BuildRequires : pango-dev32
-BuildRequires : pkgconfig(32atk)
 BuildRequires : pkgconfig(32check)
 BuildRequires : pkgconfig(32fribidi)
 BuildRequires : pkgconfig(32glib-2.0)
-BuildRequires : pkgconfig(32gtk+-3.0)
 BuildRequires : pkgconfig(32libevdev)
 BuildRequires : pkgconfig(32libsystemd)
 BuildRequires : pkgconfig(32libudev)
@@ -167,7 +162,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1600328214
+export SOURCE_DATE_EPOCH=1606025700
 export GCC_IGNORE_WERROR=1
 ## altflags_pgo content
 ## pgo generate
@@ -192,14 +187,14 @@ export NM=gcc-nm
 #export CCACHE_DISABLE=1
 ## altflags_pgo end
 ##
-%define _lto_cflags 1
+%global _lto_cflags 1
 ##
 export CFLAGS="${CFLAGS_GENERATE}"
 export CXXFLAGS="${CXXFLAGS_GENERATE}"
 export FFLAGS="${FFLAGS_GENERATE}"
 export FCFLAGS="${FCFLAGS_GENERATE}"
 export LDFLAGS="${LDFLAGS_GENERATE}"
-meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false -Ddebug-gui=false  builddir
+meson --libdir=lib64 --prefix=/usr --buildtype=plain -Ddefault_library=both -Dlibwacom=false -Ddocumentation=false -Ddebug-gui=false  builddir
 ninja -v -C builddir
 
 meson test -C builddir || :
@@ -209,7 +204,7 @@ export CXXFLAGS="${CXXFLAGS_USE}"
 export FFLAGS="${FFLAGS_USE}"
 export FCFLAGS="${FCFLAGS_USE}"
 export LDFLAGS="${LDFLAGS_USE}"
-meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false -Ddebug-gui=false  builddir
+meson --libdir=lib64 --prefix=/usr --buildtype=plain -Ddefault_library=both -Dlibwacom=false -Ddocumentation=false -Ddebug-gui=false  builddir
 ninja -v -C builddir
 pushd ../build32/
 export CFLAGS="-g -O2 -fuse-linker-plugin -pipe"
@@ -224,7 +219,7 @@ export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
 export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
 export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
 export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
-meson --libdir=lib32 --prefix=/usr --buildtype=plain -Dlibwacom=false -Ddocumentation=false -Ddebug-gui=false  builddir
+meson --libdir=lib32 --prefix=/usr --buildtype=plain -Ddefault_library=both -Dlibwacom=false -Ddocumentation=false -Ddebug-gui=false  builddir
 ninja -v -C builddir
 popd
 
