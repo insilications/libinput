@@ -1,21 +1,16 @@
 # This file contains additional build requirements that did not get
-# picked up automatically. One name per line, no whitespace.
-buildreq-meson
-# cairo-dev32
+# picked up automatically. One name per line, no whitespace.buildreq-meson
 doxygen
 findutils
 fribidi-dev
-fribidi-staticdev
 gcc-dev32
 gcc-libgcc32
 gcc-libstdc++32
-# gdk-pixbuf-dev32
 glibc-dev32
 glibc-libc32
 glib-dev32
 graphviz
 graphviz-extras
-# pango-dev32
 python3-dev
 systemd
 systemd-dev

@@ -1,1 +1,6 @@
-meson test -C builddir || : 
+export LANG=C.UTF-8
+unset http_proxy
+unset https_proxy
+unset no_proxy
+export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
+meson test -C builddir || :
