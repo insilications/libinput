@@ -2,4 +2,5 @@ libc.so.6
 libevdev.so.2
 libm.so.6
 libmtdev.so.1
+libpthread.so.0
 libudev.so.1
